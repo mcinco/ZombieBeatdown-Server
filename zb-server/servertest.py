@@ -12,7 +12,7 @@ class myHandler(BaseHTTPRequestHandler):
 	#Handler for the GET requests
 	def do_GET(self):
 		if self.path=="/":
-			self.path="/servertest.html"
+			self.path="/server.html"
 
 		try:
 			#Check the file extension required and
@@ -21,12 +21,6 @@ class myHandler(BaseHTTPRequestHandler):
 			sendReply = False
 			if self.path.endswith(".html"):
 				mimetype='text/html'
-				sendReply = True
-			if self.path.endswith(".jpg"):
-				mimetype='image/jpg'
-				sendReply = True
-			if self.path.endswith(".gif"):
-				mimetype='image/gif'
 				sendReply = True
 			if self.path.endswith(".js"):
 				mimetype='application/javascript'
@@ -58,10 +52,12 @@ class myHandler(BaseHTTPRequestHandler):
 		                 'CONTENT_TYPE':self.headers['Content-Type'],
 			})
 
-			print "Your name is: %s" % form["your_name"].value
+			print "URL(s): %s" % form["urls"].value
+			print "Priority: %s" % form["priority"].value
 			self.send_response(200)
 			self.end_headers()
-			self.wfile.write("Thanks %s !" % form["your_name"].value)
+			self.wfile.write("URL(s): %s \n" % form["urls"].value)
+			self.wfile.write("Priority: %s \n" % form["priority"].value)
 			return			
 			
 			
@@ -71,7 +67,7 @@ try:
 	server = HTTPServer(('', PORT_NUMBER), myHandler)
 	print 'Started httpserver on port ' , PORT_NUMBER
 	
-	#Wait forever for incoming htto requests
+	#Wait forever for incoming http requests
 	server.serve_forever()
 
 except KeyboardInterrupt:
