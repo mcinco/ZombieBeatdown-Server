@@ -1,7 +1,8 @@
 #!/usr/bin/python
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from os import curdir, sep
-import cgi
+import cgi, task
+urls = []
 
 PORT_NUMBER = 8080
 
@@ -56,6 +57,10 @@ class myHandler(BaseHTTPRequestHandler):
 			print "Priority: %s" % form["priority"].value
 			self.send_response(200)
 			self.end_headers()
+			urls = form.getvalue("urls").split(",")
+			print urls
+			print len(urls)
+			#task = Task make_task(urls, form.getvalue("priority"))
 			self.wfile.write("URL(s): %s \n" % form["urls"].value)
 			self.wfile.write("Priority: %s \n" % form["priority"].value)
 			return			
