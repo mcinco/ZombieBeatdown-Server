@@ -13,6 +13,3 @@ def push_task(doc):
     
 #     for t in collection.find():
 #         print t
-
-    
-
