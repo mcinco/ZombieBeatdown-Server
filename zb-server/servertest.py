@@ -2,7 +2,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
 import cgi, json
 from task import Task
-urls = []
+import mongo
 
 PORT_NUMBER = 8080
 
@@ -16,18 +16,11 @@ class myHandler(BaseHTTPRequestHandler):
 			self.path = "/server.html"
 
 		try:
-			# Check the file extension required and
-			# set the right mime type
+			# Check the file exists
 
 			sendReply = False
 			if self.path.endswith(".html"):
 				mimetype = 'text/html'
-				sendReply = True
-			if self.path.endswith(".js"):
-				mimetype = 'application/javascript'
-				sendReply = True
-			if self.path.endswith(".css"):
-				mimetype = 'text/css'
 				sendReply = True
 
 			if sendReply == True:
@@ -53,14 +46,17 @@ class myHandler(BaseHTTPRequestHandler):
 		                 'CONTENT_TYPE':self.headers['Content-Type'],
 			})
 
-# 			print "URL(s): %s" % form["urls"].value
-# 			print "Priority: %s" % form["priority"].value
-			urls = form.getvalue("urls").split(",")
-			t = Task(urls, form.getvalue("priority"))
-			print t.printTask()
-			self.wfile.write(t.printTask())
+			data = form.getvalue("urls")
+			urls = [x.strip() for x in data.split(',')]
+			timeout = form.getvalue("timeout")
+			priority = form.getvalue("priority")
+			
+			t = Task(urls, timeout, priority)
 			self.send_response(200)
-			self.end_headers()		
+			self.end_headers()
+			
+			mongo.push_task(t)
+			self.wfile.write("Task pushed to DB successfully")
 			return			
 			
 			
