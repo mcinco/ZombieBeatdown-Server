@@ -1,8 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
-import cgi, json
+import cgi, json, mongo
 from task import Task
-import mongo
 
 PORT_NUMBER = 8080
 
