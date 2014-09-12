@@ -18,8 +18,6 @@ def check_tasks(progress):
     collection = db.tasks
     for task in collection.find({ "progress":prog }):
         list.append(task)
-#         pprint.pprint(task)
-#         print "\n"  
     return list
     
 def print_size(progress):
@@ -28,4 +26,3 @@ def print_size(progress):
     db = client.ZombieBeatdown
     collection = db.tasks
     return "\nThere are %d tasks in the database and %d have status: %s" % (collection.count(), collection.find({ "progress":prog }).count(), prog)
-    #print "There are",collection.count(),"tasks in the database and",collection.find({ "progress":prog }).count(),"have status:",prog 
