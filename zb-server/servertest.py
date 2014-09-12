@@ -1,7 +1,8 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
-import cgi, json, mongo
+import cgi, json, mongo, pprint
 from task import Task
+from bson.json_util import dumps
 
 PORT_NUMBER = 8080
 
@@ -12,7 +13,11 @@ class myHandler(BaseHTTPRequestHandler):
 	# Handler for the GET requests
 	def do_GET(self):
 		if self.path == "/":
-			self.path = "/server.html"
+			self.path = "/index.html"
+		elif self.path == "/createtask?":
+			self.path = "/create.html"
+		elif self.path == "/results?":
+			self.path = "/results.html"
 
 		try:
 			# Check the file exists
@@ -56,9 +61,23 @@ class myHandler(BaseHTTPRequestHandler):
 			
 			mongo.push_task(t)
 			self.wfile.write("Task pushed to DB successfully")
-			return			
+			return
+		
+		elif self.path == "/results":
+			form = cgi.FieldStorage(
+				fp=self.rfile,
+				headers=self.headers,
+				environ={'REQUEST_METHOD':'POST',
+		                 'CONTENT_TYPE':self.headers['Content-Type'],
+			})
 			
-			
+			progress = form.getvalue("progress")
+			self.send_response(200)
+			self.end_headers()
+			self.wfile.write(dumps(mongo.check_tasks(progress), indent=2, sort_keys=True))
+			self.wfile.write(mongo.print_size(progress))
+			return
+		
 try:
 	# Create a web server and define the handler to manage the
 	# incoming request

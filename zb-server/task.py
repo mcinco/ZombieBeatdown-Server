@@ -10,8 +10,8 @@ class Task(object):
         self.urls = urls
         self.priority = priority
         self.timeout = timeout
-        self.progress = "Not Complete"
-        self.status = None
+        self.progress = "idle"
+        self.result = None
         
     def getSize(self):
         return len(self.urls)

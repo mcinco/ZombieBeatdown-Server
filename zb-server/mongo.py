@@ -1,8 +1,8 @@
-import pymongo, json
+import pymongo, json, pprint
 from pymongo import MongoClient
 
 MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
-#task = ""
+list = []
 
 def push_task(doc):
     task = doc    
@@ -11,5 +11,21 @@ def push_task(doc):
     collection = db.tasks
     collection.insert(task.__dict__)
     
-#     for t in collection.find():
-#         print t
+def check_tasks(progress):
+    prog = progress    
+    client = MongoClient(MONGO_URL)
+    db = client.ZombieBeatdown
+    collection = db.tasks
+    for task in collection.find({ "progress":prog }):
+        list.append(task)
+#         pprint.pprint(task)
+#         print "\n"  
+    return list
+    
+def print_size(progress):
+    prog = progress 
+    client = MongoClient(MONGO_URL)
+    db = client.ZombieBeatdown
+    collection = db.tasks
+    return "\nThere are %d tasks in the database and %d have status: %s" % (collection.count(), collection.find({ "progress":prog }).count(), prog)
+    #print "There are",collection.count(),"tasks in the database and",collection.find({ "progress":prog }).count(),"have status:",prog 
