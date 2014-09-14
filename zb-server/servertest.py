@@ -59,8 +59,8 @@ class myHandler(BaseHTTPRequestHandler):
 			self.send_response(200)
 			self.end_headers()
 			
-			mongo.push_task(t)
-			self.wfile.write("Task pushed to DB successfully")
+			obj_id = mongo.push_task(t)
+			self.wfile.write("Task pushed to DB successfully.\nObjectID is %s" % obj_id)
 			return
 		
 		elif self.path == "/results":
