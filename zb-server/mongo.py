@@ -3,8 +3,7 @@ from pymongo import MongoClient
 
 MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
 
-def push_task(doc):
-    task = doc    
+def push_task(task):    
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
     collection = db.tasks
