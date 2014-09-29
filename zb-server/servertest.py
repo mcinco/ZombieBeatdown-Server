@@ -1,6 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
-import cgi, json, mongo, pprint
+import cgi, json, mongo, pprint, re
 from task import Task
 from bson.json_util import dumps
 
@@ -51,7 +51,7 @@ class myHandler(BaseHTTPRequestHandler):
 			})
 
 			data = form.getvalue("urls")
-			urls = [x.strip() for x in data.split(',')]
+			urls = [x.strip() for x in re.split(' |,|\n', data)]
 			timeout = form.getvalue("timeout")
 			priority = form.getvalue("priority")
 			
