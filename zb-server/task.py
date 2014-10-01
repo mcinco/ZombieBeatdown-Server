@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 class Task(object):
     urls = []
@@ -13,6 +14,7 @@ class Task(object):
         self.timeout = timeout
         self.progress = "idle"
         self.tid_list = []
+        self.date_created = str(datetime.now())
         
     def getSize(self):
         return len(self.urls)
