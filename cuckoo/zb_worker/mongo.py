@@ -4,11 +4,12 @@ from bson.json_util import dumps
 
 MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
 
-def pull_task():  
-    client = MongoClient(MONGO_URL)
-    db = client.ZombieBeatdown
-    collection = db.tasks
-          
+client = MongoClient(MONGO_URL)
+db = client.ZombieBeatdown
+collection = db.tasks
+
+def pull_task():    
+            
     if collection.find_one({ "progress":"idle" }) == None:
         return None
         
@@ -29,10 +30,6 @@ def pull_task():
                 collection.update(task , {'$set':{'progress': "inprogress"}}, upsert=False, multi=False)
                 return task      
             
-def update_tasklist(task, tasklist):  
-    client = MongoClient(MONGO_URL)
-    db = client.ZombieBeatdown
-    collection = db.tasks
-    
-    collection.update(task , {'$push':{'tid_list': [1]}})
+def update_tasklist(task, tasklist):    
+    collection.update({ "_id": task['_id']} , {'$set':{'tid_list': tasklist}})
     
