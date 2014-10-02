@@ -21,11 +21,16 @@ def check_status(_id):
     try:
         while True:
             time.sleep(5)
-            print tid_list
-            #mongo.get_tasklist(_id)
-#             for tid in tasklist:
-#             taskhandler.check_task('1')
-            #print 'about to check db'
+#             print tid_list
+            task_status = taskhandler.task_done(tid_list)
+
+            if task_status == False:
+                print 'Task not done\n'
+            if task_status == True:
+                print 'All URLs done - Task is completed!\n'
+                mongo.task_done(_id)
+                break
+            
     except KeyboardInterrupt:
         return
 

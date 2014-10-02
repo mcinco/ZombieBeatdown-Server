@@ -6,11 +6,14 @@
 
 import task, json, mongo
 import os, random, sys
-
+from pprint import pprint
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
 
 from lib.cuckoo.common.colors import bold, green, red, yellow
-from lib.cuckoo.core.database import Database
+from lib.cuckoo.core.database import Database, TASK_PENDING, TASK_RUNNING, Task
+from lib.cuckoo.core.database import TASK_COMPLETED, TASK_RECOVERED
+from lib.cuckoo.core.database import TASK_REPORTED, TASK_FAILED_ANALYSIS
+from lib.cuckoo.core.database import TASK_FAILED_PROCESSING
 
 tasklist = []
 
@@ -42,12 +45,20 @@ def delete_all():
             db.delete_task(db.count_tasks())
             print url
             
-def check_task(tid):
+def task_done(tid_list):
     db = Database()
+#     offset = None
+
+    tasks_count = db.count_tasks(status=TASK_COMPLETED, tid_list=tid_list)
+    tasks_count += db.count_tasks(status=TASK_REPORTED, tid_list=tid_list)
+    print tasks_count
     
-    completedlist = db.list_tasks(offset=offset, status=TASK_COMPLETED)
-    completedlist += db.list_tasks(offset=offset, status=TASK_REPORTED)
-    print completedlist
+    if tasks_count < len(tid_list):
+#         print 'not done'
+        return False
+    elif tasks_count == len(tid_list):
+#         print 'done'
+        return True
         
         
 if __name__ == '__main__':

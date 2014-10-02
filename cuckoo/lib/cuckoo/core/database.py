@@ -971,7 +971,7 @@ class Database(object):
         session = self.Session()
         try:
             search = session.query(Task)
-
+            
             if status:
                 search = search.filter(Task.status == status)
             if not_status:
@@ -989,23 +989,29 @@ class Database(object):
             session.close()
         return tasks
 
-    def count_tasks(self, status=None):
+    def count_tasks(self, status=None, tid_list=None):
         """Count tasks in the database
         @param status: apply a filter according to the task status
         @return: number of tasks found
         """
+        count = 0
         session = self.Session()
         try:
             if status:
-                tasks_count = session.query(Task).filter(Task.status == status).count()
+                if tid_list:
+                    for tid in tid_list:
+                        tasks_count = session.query(Task).filter((Task.id == tid), (Task.status == status)).count()
+                        count += tasks_count
+                else:
+                    count = session.query(Task).filter(Task.status == status).count()
             else:
-                tasks_count = session.query(Task).count()
+                count = session.query(Task).count()
         except SQLAlchemyError as e:
             log.debug("Database error counting tasks: {0}".format(e))
             return 0
         finally:
             session.close()
-        return tasks_count
+        return count
 
     def view_task(self, task_id, details=False):
         """Retrieve information on a task.

@@ -33,7 +33,6 @@ def pull_task():
 def update_tasklist(task, tasklist):    
     collection.update({ "_id": task['_id']} , {'$set':{'tid_list': tasklist}})
     
-def get_tasklist(_id):    
+def task_done(_id):    
     for t in collection.find({ "_id": _id }):
-        task = t
-    return task['tid_list']   
+        collection.update(t , {'$set':{'progress': "completed"}}, upsert=False, multi=False)
