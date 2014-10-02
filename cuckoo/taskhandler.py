@@ -41,6 +41,13 @@ def delete_all():
         for url in list:
             db.delete_task(db.count_tasks())
             print url
+            
+def check_task(tid):
+    db = Database()
+    
+    completedlist = db.list_tasks(offset=offset, status=TASK_COMPLETED)
+    completedlist += db.list_tasks(offset=offset, status=TASK_REPORTED)
+    print completedlist
         
         
 if __name__ == '__main__':
