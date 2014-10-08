@@ -14,10 +14,10 @@ class myHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		if self.path == "/":
 			self.path = "/index.html"
-		elif self.path == "/createtask?":
+		elif self.path == "/create?":
 			self.path = "/create.html"
-		elif self.path == "/results?":
-			self.path = "/results.html"
+		elif self.path == "/delete?":
+			self.path = "/delete.html"
 
 		try:
 			# Check the file exists
@@ -63,7 +63,7 @@ class myHandler(BaseHTTPRequestHandler):
 			self.wfile.write("Task pushed to DB successfully.\nObjectID is %s" % obj_id)
 			return
 		
-		elif self.path == "/results":
+		elif self.path == "/check":
 			form = cgi.FieldStorage(
 				fp=self.rfile,
 				headers=self.headers,
@@ -72,6 +72,8 @@ class myHandler(BaseHTTPRequestHandler):
 			})
 			
 			progress = form.getvalue("progress")
+			if progress == None:
+				self.wfile.write("<h1>No progress selected\n</h1>")
 			self.send_response(200)
 			self.end_headers()
 			self.wfile.write(dumps(mongo.check_tasks(progress), indent=2, sort_keys=True))

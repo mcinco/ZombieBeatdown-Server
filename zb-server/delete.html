@@ -58,31 +58,28 @@ footer {
 	</nav>
 	
 	<section>
-		<h1>Create a Task</h1>
-		<form method="POST" action="/send">
-      	<p>
-		Enter URL(s) separated by a comma or a space for each one: <br>
-	    <textarea name="urls" cols="25" rows="5"></textarea>
+		<h1>Delete Tasks</h1>
+		<form method="POST" action="/delete">
+     	<p>		
+		Delete by Task Progress: <br>
+		<input type="radio" name="progress" value="idle"> Idle<br>
+		<input type="radio" name="progress" value="completed"> Completed<br><br>
+	  	</p>
+	  	
+	  	<p>		
+		Or enter Task ID below: <br>
+		<textarea name="deleteID" cols="25" rows="1"></textarea>
 		</p>
-		
 		<p>
-		Timeout (in seconds): <br>
-		<input type="text" name="timeout">
-		</p>
-		
-		<p>
-		Task Priority: <br>
-		<input type="radio" name="priority" value="High"> High<br>
-		<input type="radio" name="priority" value="Normal"> Normal<br>
-		<input type="radio" name="priority" value="Low"> Low<br>
-		
 		<input type="submit" value="Send"> <input type="reset">
 		</p>
 		</form>
 	</section>
 	
+	
 	<footer>
 		Micah Cinco
 	</footer>
+	
    </body>
 </html>

@@ -58,26 +58,17 @@ footer {
 	</nav>
 	
 	<section>
-		<h1>Create a Task</h1>
-		<form method="POST" action="/send">
-      	<p>
-		Enter URL(s) separated by a comma or a space for each one: <br>
-	    <textarea name="urls" cols="25" rows="5"></textarea>
-		</p>
-		
-		<p>
-		Timeout (in seconds): <br>
-		<input type="text" name="timeout">
-		</p>
-		
-		<p>
-		Task Priority: <br>
-		<input type="radio" name="priority" value="High"> High<br>
-		<input type="radio" name="priority" value="Normal"> Normal<br>
-		<input type="radio" name="priority" value="Low"> Low<br>
+		<h1>Check Tasks</h1>
+		<form method="POST" action="/check">
+     	<p>		
+		Task Progress: <br>
+		<input type="radio" name="progress" value="idle"> Idle<br>
+		<input type="radio" name="progress" value="inprogress"> In Progress<br>
+		<input type="radio" name="progress" value="completed"> Completed<br><br>
 		
 		<input type="submit" value="Send"> <input type="reset">
-		</p>
+
+	  	</p>
 		</form>
 	</section>
 	
