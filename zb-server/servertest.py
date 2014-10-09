@@ -74,11 +74,41 @@ class myHandler(BaseHTTPRequestHandler):
 			progress = form.getvalue("progress")
 			if progress == None:
 				self.wfile.write("<h1>No progress selected\n</h1>")
+				return
 			self.send_response(200)
 			self.end_headers()
 			self.wfile.write(dumps(mongo.check_tasks(progress), indent=2, sort_keys=True))
 			self.wfile.write(mongo.print_size(progress))
 			return
+		
+		elif self.path == "/delete":
+			form = cgi.FieldStorage(
+				fp=self.rfile,
+				headers=self.headers,
+				environ={'REQUEST_METHOD':'POST',
+		                 'CONTENT_TYPE':self.headers['Content-Type'],
+			})
+			
+			progress = form.getvalue("progress")
+			if progress == None:
+				taskid = form.getvalue("deleteID")
+				if taskid == None:
+					self.wfile.write("<h1>No progress or Task ID entered.\n</h1>")
+					return
+				else:
+					self.wfile.write(mongo.delete_task(taskid))
+					return
+			
+			else:
+				if mongo.get_progress_size(progress) == 0:
+					self.wfile.write("<h1>No tasks to delete in selected progress state.\n</h1>")
+					return
+				else:
+					self.wfile.write("<h1>Successfully deleted tasks.\n</h1>")
+					self.wfile.write(mongo.delete_progress(progress))
+					return
+					
+			
 		
 try:
 	# Create a web server and define the handler to manage the
