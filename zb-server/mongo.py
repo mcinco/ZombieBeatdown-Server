@@ -52,7 +52,7 @@ def print_size(progress):
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
     collection = db.tasks
-    return "\nThere are %d tasks in the database and %d are in \"%s\" status." % (collection.count(), self.get_progress_size(prog), prog)
+    return "\nThere are %d tasks in the database and %d are in \"%s\" status." % (collection.count(), collection.find({ "progress":prog }).count(), prog)
 
 def get_progress_size(progress):
     client = MongoClient(MONGO_URL)
