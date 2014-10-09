@@ -1,85 +1,58 @@
+<html>
+<head>
+  <style>
+    body { font: Georgia, "Times New Roman", Sans-Serif; background: #fff repeat-x; 
+    color: #ffffff; font-size: 15px; background: black }
+    a { color: #A82A15; text-decoration: none; }
+    h1 {  float: left; margin: 20px 0 50px; font-size: 40px; color: #fff; }
+    h2 { font-size: 2.4em; font-weight: normal; margin: 0 0 20px; color: #A82A15;}
+    p  { margin: 5px 0 15px; line-height: 1.6em; }
+    #header { margin: 0 auto; width: 900px}
+    #top { float: right; margin: 38px 0 30px 0;}
+    #top li { list-style: none; display: inline; }
+    #top li a { float: left; padding: 6px 20px; margin: 3px 2px 0 0; color: #ccc; }
+    #top li a.current { color: #fff; background: #A82A15; }
+    #top li a:hover { background: #808080; color: #fff; }
+    #content { margin: 0 auto; width: 900px; height: 65%;}
+    #center { float: left; width: 100%; margin: 0 0 15px; }
+    #footer { clear: both; padding: 15px 0; border-top: 1px solid #ccc; }
+  </style>
+  <title>Zombie Beatdown Manager</title>
+</head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-   <head>
-   <style>
-header {
-    background-color:black;
-    color:white;
-    text-align:center;
-    padding:5px;	 
-}
-nav {
-    line-height:30px;
-    background-color:#eeeeee;
-    height:80%;
-    width:20%;
-    float:left;
-    padding:5px;	      
-}
-button {
-   background: #eeeeee;
-   width: 100%;
-   color: #000000;
-   font-size: 17px;
-   font-family: Georgia, Serif;
-   vertical-align: middle;
-   }
-button:hover {
-   background: #28597a;
-   color: #ccc;
-   }
-section {
-    width:75%;
-    float:left;
-    padding:10px;	 	 
-}
-footer {
-    background-color:black;
-    color:white;
-    clear:both;
-    text-align:center;
-    padding:5px;	 	 
-}
-</style>
-   	<title>Zombie Beatdown Manager</title>
-   </head>
+<body>
+  <div id="header">
+    <h1><span class="hr">Zombie Beatdown</span> Manager</h1>
+    <ul id="top">
+      <li><a href="index.html">Create a Task</a></li>
+      <li><a href="check.html">Check Tasks</a></li>
+      <li><a class="current" href="delete.html">Delete Tasks</a></li>
+    </ul>
+    
+  </div>
+  <div id="footer"></div>
+  <div id="content">
+    <div id="center">
+      <h2>Delete Tasks</h2>
+      <form method="POST" action="/delete">
+        <p>   
+          Delete by Task Progress: <br>
+          <input type="radio" name="progress" value="idle"> Idle<br>
+          <input type="radio" name="progress" value="completed"> Completed<br><br>
+        </p>
 
-   <body>
-   
-  
-	<header>
-		<h1>Zombie Beatdown Manager</h1>
-	</header>
-	
-	<nav>
-		<button><a href="index.html">Create a Task</a></button>
-		<button><a href="check.html">Check Tasks</a></button>
-		<button><a href="delete.html">Delete Tasks</a></button>
-	</nav>
-	
-	<section>
-		<h1>Delete Tasks</h1>
-		<form method="POST" action="/delete">
-     	<p>		
-		Delete by Task Progress: <br>
-		<input type="radio" name="progress" value="idle"> Idle<br>
-		<input type="radio" name="progress" value="completed"> Completed<br><br>
-	  	</p>
-	  	
-	  	<p>		
-		Or enter Task ID below: <br>
-		<textarea name="deleteID" cols="25" rows="1"></textarea>
-		</p>
-		<p>
-		<input type="submit" value="Send"> <input type="reset">
-		</p>
-		</form>
-	</section>
-	
-	
-	<footer>
-		Micah Cinco
-	</footer>
-	
-   </body>
+        <p>   
+          Or enter Task ID below: <br>
+          <textarea name="deleteID" cols="25" rows="1"></textarea>
+        </p>
+        <p>
+          <input type="submit" value="Send"> <input type="reset">
+        </p>
+      </form>
+    </div>
+  </div>
+  <div id="footer">
+    <p>Micah Cinco : ENGR489</p>
+  </div>
+</body>
 </html>
