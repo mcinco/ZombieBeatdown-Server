@@ -4,9 +4,8 @@
 import json
 from datetime import datetime
 
-
+"""Task object"""
 class Task(object):
-	"""Task object"""
     urls = []
     priority = ""
     timeout = 100
@@ -30,4 +29,3 @@ class Task(object):
     	"""Returns the Task in JSON format as a string.
     	@return task.__dict__"""
         return json.dumps(self.__dict__)
-        

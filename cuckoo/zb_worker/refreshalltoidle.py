@@ -1,3 +1,6 @@
+# Created by: Micah Cinco
+# Version 1. October 2014
+
 import mongo, task, json, pprint, os, pymongo, sys
 from datetime import datetime
 from os import curdir, sep
@@ -5,7 +8,8 @@ from pymongo import MongoClient
 
 MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
 
-def refresh_tasks(progress):  
+def refresh_tasks(progress):
+    """Reset all tasks in the database to progress state == "idle"."""  
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
     collection = db.tasks
