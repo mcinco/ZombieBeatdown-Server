@@ -47,17 +47,14 @@ def delete_all():
             
 def task_done(tid_list):
     db = Database()
-#     offset = None
 
     tasks_count = db.count_tasks(status=TASK_COMPLETED, tid_list=tid_list)
     tasks_count += db.count_tasks(status=TASK_REPORTED, tid_list=tid_list)
     print tasks_count
     
     if tasks_count < len(tid_list):
-#         print 'not done'
         return False
     elif tasks_count == len(tid_list):
-#         print 'done'
         return True
         
         
