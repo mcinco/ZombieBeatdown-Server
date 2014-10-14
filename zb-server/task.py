@@ -7,15 +7,19 @@ from datetime import datetime
 """Task object"""
 class Task(object):
     urls = []
-    priority = ""
-    timeout = 100
     tid_list = []
 
     # The class "constructor" 
     def __init__(self, urls, timeout, priority):
         self.urls = urls
-        self.priority = priority
-        self.timeout = timeout
+        if priority == None:
+            self.priority = "Normal"
+        else:
+            self.priority = priority
+        if priority == None:
+            self.timeout = "100"
+        else:
+            self.timeout = timeout
         self.progress = "idle"
         self.tid_list = []
         self.date_created = str(datetime.now())

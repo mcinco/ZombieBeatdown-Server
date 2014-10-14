@@ -9,7 +9,7 @@ MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
 
 client = MongoClient(MONGO_URL)
 db = client.ZombieBeatdown
-collection = db.tasks
+collection = db.evaluation
 
 def pull_task():    
     """Pulls task from MongoHQ DB according to priority and must be in "idle" state.

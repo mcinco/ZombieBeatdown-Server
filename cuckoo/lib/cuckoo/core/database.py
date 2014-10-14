@@ -1013,6 +1013,24 @@ class Database(object):
             session.close()
         return count
 
+    def get_status(self, status=None, tid=None):
+        """Gets the status of a given tid
+        @param status: apply a filter according to the task status
+        @return: task status
+        """
+        count = 0
+        session = self.Session()
+        try:
+            if tid and status:
+                count = session.query(Task).filter((Task.id == tid), (Task.status == status)).count()
+        except SQLAlchemyError as e:
+            log.debug("Database error counting tasks: {0}".format(e))
+            return 
+        finally:
+            session.close()
+        return count
+
+
     def view_task(self, task_id, details=False):
         """Retrieve information on a task.
         @param task_id: ID of the task to query.

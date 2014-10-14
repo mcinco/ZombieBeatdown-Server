@@ -13,7 +13,7 @@ MONGO_URL = 'mongodb://admin:ENGR489zb@kahana.mongohq.com:10046/ZombieBeatdown'
 def push_task(task):    
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     return collection.insert(task.__dict__)
     
 """Pulls all tasks from MongoHQ DB with matching progress states.
@@ -21,7 +21,7 @@ def push_task(task):
 def check_tasks(progress):
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     list = []
     for task in collection.find({ "progress":progress }):
         list.append(task)
@@ -32,7 +32,7 @@ def check_tasks(progress):
 def delete_progress(progress):   
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     list = []
     for task in collection.find({ "progress":progress }):
         list.append(task['_id'])
@@ -43,7 +43,7 @@ def delete_progress(progress):
 def delete_task(taskid):   
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     try:
         task = collection.find_one({ "_id":ObjectId(taskid) })
         if task == None:
@@ -59,12 +59,12 @@ def print_size(progress):
     prog = progress 
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     return "\nThere are %d tasks in the database and %d are in \"%s\" status." % (collection.count(), collection.find({ "progress":prog }).count(), prog)
 
 """Return the total number of tasks with a matching progress."""
 def get_progress_size(progress):
     client = MongoClient(MONGO_URL)
     db = client.ZombieBeatdown
-    collection = db.tasks
+    collection = db.evaluation
     return collection.find({ "progress":progress }).count()
