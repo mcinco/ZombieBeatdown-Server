@@ -1,3 +1,6 @@
+# Created by: Micah Cinco
+# Version 1. October 2014
+
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from os import curdir, sep
 import cgi, json, mongo, pprint, re
@@ -6,9 +9,9 @@ from bson.json_util import dumps
 
 PORT_NUMBER = 8080
 
-# This class will handles any incoming request from
-# the browser 
 class myHandler(BaseHTTPRequestHandler):
+	"""Handles all GET and POST requests from
+		the browser."""
 	
 	# Handler for the GET requests
 	def do_GET(self):
@@ -21,7 +24,6 @@ class myHandler(BaseHTTPRequestHandler):
 
 		try:
 			# Check the file exists
-
 			sendReply = False
 			if self.path.endswith(".html"):
 				mimetype = 'text/html'
@@ -36,12 +38,12 @@ class myHandler(BaseHTTPRequestHandler):
 				self.wfile.write(f.read())
 				f.close()
 			return
-
 		except IOError:
 			self.send_error(404, 'File Not Found: %s' % self.path)
 
 	# Handler for the POST requests
 	def do_POST(self):
+		# Create a Task
 		if self.path == "/send":
 			form = cgi.FieldStorage(
 				fp=self.rfile,
@@ -63,6 +65,7 @@ class myHandler(BaseHTTPRequestHandler):
 			self.wfile.write("Task pushed to DB successfully.\nObjectID is %s" % obj_id)
 			return
 		
+		# Check Tasks
 		elif self.path == "/check":
 			form = cgi.FieldStorage(
 				fp=self.rfile,
@@ -80,7 +83,8 @@ class myHandler(BaseHTTPRequestHandler):
 			self.wfile.write(dumps(mongo.check_tasks(progress), indent=2, sort_keys=True))
 			self.wfile.write(mongo.print_size(progress))
 			return
-		
+
+		# Delete Tasks (by progress or ID)
 		elif self.path == "/delete":
 			form = cgi.FieldStorage(
 				fp=self.rfile,
@@ -107,8 +111,6 @@ class myHandler(BaseHTTPRequestHandler):
 					self.wfile.write("<h1>Successfully deleted tasks.\n</h1>")
 					self.wfile.write(mongo.delete_progress(progress))
 					return
-					
-			
 		
 try:
 	# Create a web server and define the handler to manage the
